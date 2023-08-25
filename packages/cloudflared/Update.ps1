@@ -15,12 +15,31 @@ if ($LatestVersion -in $AvailablePackages) {
 
 # Update the install script
 $InstallPs1 = Get-Content $PSScriptRoot\tools\chocolateyInstall.ps1
-@{
+$Replacements = @{
     "url"        = $LatestRelease.assets.Where{$_.name -eq 'cloudflared-windows-386.exe'}.browser_download_url
-    "checksum"   = ($LatestRelease.body.Split("`n") -match 'cloudflared-windows-386.exe: (?<CheckSum>\w+)').Split(': ')[-1]
     "url64bit"   = $LatestRelease.assets.Where{$_.name -eq 'cloudflared-windows-amd64.exe'}.browser_download_url
-    "checksum64" = ($LatestRelease.body.Split("`n") -match 'cloudflared-windows-amd64.exe: (?<CheckSum>\w+)').Split(': ')[-1]
-}.GetEnumerator().ForEach{
+}
+
+try {
+    $Replacements.checksum   = ($LatestRelease.body.Split("`n") -match 'cloudflared-windows-386.exe: (?<CheckSum>\w+)').Split(': ')[-1]
+    $Replacements.checksum64 = ($LatestRelease.body.Split("`n") -match 'cloudflared-windows-amd64.exe: (?<CheckSum>\w+)').Split(': ')[-1]
+} catch {
+    Write-Warning "Release body did not contain checksums. Falling back to manual calculation."
+
+    $Replacements.checksum   = (Get-FileHash -Algorithm SHA256 -InputStream (
+        [System.IO.MemoryStream]::New(
+            (Invoke-WebRequest $Replacements.url).Content
+        )
+    )).Hash
+
+    $Replacements.checksum64 = (Get-FileHash -Algorithm SHA256 -InputStream (
+        [System.IO.MemoryStream]::New(
+            (Invoke-WebRequest $Replacements.url64bit).Content
+        )
+    )).Hash
+}
+
+$Replacements.GetEnumerator().ForEach{
     if ($InstallPs1 -match "^(\s*[`$`"']?$($_.Key)[`"']?\s*=\s*)[`"'].*[`"']") {
         $InstallPs1 = $InstallPs1 -replace "(\s*[`$`"']?$($_.Key)[`"']?\s*=\s*)[`"'].*[`"']", "`$1'$($_.Value)'"
     } else {

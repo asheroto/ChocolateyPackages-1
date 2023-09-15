@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>qobuz</id>
+    <version>$version$</version>
+    <owners>jpruskin</owners>
+    <title>Qobuz</title>
+    <authors>Qobuz</authors>
+    <copyright>Copyright © 2023 Qobuz</copyright>
+    <tags>qobuz music streaming subscription cross-platform</tags>
+    <summary>Qobuz is a digital music store and streaming service, with a focus on high fidelity lossless audio.</summary>
+    <description>Qobuz is a music streaming and download service that offers a catalogue of over 70 million tracks in high-resolution audio (CD quality and above). It is available in over 20 countries, including the United States, the United Kingdom, France, Germany, and Japan.
+
+      The Qobuz app is available on iOS, Android, Mac, and PC. This package contains the Application for PC.
+      
+      Qobuz is known for its high-quality audio. It offers two streaming quality options: Hi-Fi (16-bit/44.1kHz) and Hi-Res (24-bit/96kHz or 24-bit/192kHz). Qobuz also allows users to download music for offline listening.
+
+      Full use of Qobuz requires subscription or purchase.
+    </description>
+    <projectUrl>https://www.qobuz.com/</projectUrl>
+    <iconUrl>https://rawcdn.githack.com/jpruskin/ChocolateyPackages/master/icons/qobuz.ico</iconUrl>
+    <licenseUrl>https://www.qobuz.com/gb-en/legal/terms</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <packageSourceUrl>https://github.com/JPRuskin/ChocolateyPackages/tree/main/packages/qobuz</packageSourceUrl>
+    <docsUrl>https://help.qobuz.com/en/</docsUrl>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

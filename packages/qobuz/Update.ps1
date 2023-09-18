@@ -13,7 +13,7 @@ $LatestVersion = $DisplayVersion -replace "-.+$"
 
 $AvailablePackages = Invoke-RestMethod "https://community.chocolatey.org/api/v2/package-versions/$PackageId"
 
-if ($DisplayVersion -in $AvailablePackages) {
+if ($LatestVersion -in $AvailablePackages) {
     Write-Host "No update required for '$($PackageId)'"
     return
 }
